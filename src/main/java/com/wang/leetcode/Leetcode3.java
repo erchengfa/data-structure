@@ -6,6 +6,30 @@ import java.util.Set;
 public class Leetcode3 {
 
     /**
+     * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+     *
+     * 示例 1:
+     *
+     * 输入: "abcabcbb"
+     * 输出: 3
+     * 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+     * 示例 2:
+     *
+     * 输入: "bbbbb"
+     * 输出: 1
+     * 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+     * 示例 3:
+     *
+     * 输入: "pwwkew"
+     * 输出: 3
+     * 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     *      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/longest-substring-without-repeating-characters
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     */
+    /**
      * 思路：
      * 这道题主要用到思路是：滑动窗口
      *
@@ -26,19 +50,20 @@ public class Leetcode3 {
      * 链接：https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/solution/hua-dong-chuang-kou-by-powcai/
      * 来源：力扣（LeetCode）
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-     * @param s
+     * @param
      * @return
      */
     public int lengthOfLongestSubstring(String s) {
         int maxLength = 0;
         Set<Character> cSet =  new HashSet<Character>();
-        int left = 0,right=0; //窗口的左右指针 该指针直接的元素始终是不重复的， 当出现了重复的则窗口左移【left++】
+        int left = -1,right=-1;//left 指向窗口最左侧元素，right指向窗口最右侧元素
         for (; left < s.length(); left++){
-            if (left != 0){// 左移需要将窗口之外的元素删除
-                cSet.remove(s.charAt(left-1));
+            if (left != -1){// 左移需要将窗口之外的元素删除
+                cSet.remove(s.charAt(left));
             }
-            for (;right < s.length() && !cSet.contains(s.charAt(right)); right++){
-                cSet.add(s.charAt(right));
+            //right+1 未窗口右侧的元素 如果这个元素不包含在窗口里，就需要将其纳入到窗口里，right++
+            for (;(right + 1) < s.length() && !cSet.contains(s.charAt(right + 1)); right++){
+                cSet.add(s.charAt(right + 1));
             }
             int newLength = right - left;
             if (maxLength < newLength){
